@@ -25,10 +25,8 @@
     "title": "THEBEATLIST",
     "subtitle": "Official app",
     "description": "",
-    "hero_image": "logo-wide.png",
-    "layout": {
-      "type": "pill_rows"
-    }
+    "hero_image": "assets/logo-wide.png",
+    "layout": { "type": "pill_rows" }
   },
 
   "links": {
@@ -36,16 +34,8 @@
       {
         "title": "Official",
         "items": [
-          {
-            "label": "Website",
-            "url": "https://thebeatlist.com",
-            "style": "pill"
-          },
-          {
-            "label": "Instagram",
-            "url": "https://www.instagram.com/thebeatlistofficial",
-            "style": "pill"
-          }
+          { "label": "Website", "url": "https://thebeatlist.com", "style": "pill" },
+          { "label": "Instagram", "url": "https://www.instagram.com/thebeatlistofficial", "style": "pill" }
         ]
       }
     ]
