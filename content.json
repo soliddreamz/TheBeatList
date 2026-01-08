@@ -1,0 +1,59 @@
+{
+  "app": {
+    "name": "thebeatlist",
+    "mode": "pilot",
+    "version": 1
+  },
+
+  "branding": {
+    "pilot_badge": true,
+    "show_powered_by_base": false
+  },
+
+  "theme": {
+    "background": "black",
+    "accent": "#3b82f6"
+  },
+
+  "tabs": [
+    { "id": "home", "label": "Home" },
+    { "id": "live", "label": "Live" },
+    { "id": "links", "label": "Links" }
+  ],
+
+  "home": {
+    "title": "THEBEATLIST",
+    "subtitle": "Official app",
+    "description": "",
+    "hero_image": "logo-wide.png",
+    "layout": { "type": "pill_rows" }
+  },
+
+  "links": {
+    "sections": [
+      {
+        "title": "Official",
+        "items": [
+          { "label": "Website", "url": "https://thebeatlist.com", "style": "pill" },
+          { "label": "Instagram", "url": "https://www.instagram.com/thebeatlistofficial", "style": "pill" }
+        ]
+      }
+    ]
+  },
+
+  "live": {
+    "enabled": true,
+    "mode": "external_only",
+    "status": "offline",
+    "title": "Live Stream",
+    "description": "When we’re live, tap Watch Live.",
+    "watch_url": ""
+  },
+
+  "feedback": {
+    "enabled": true,
+    "type": "mailto",
+    "mailto": "soliddremz@gmail.com",
+    "subject": "THEBEATLIST App Feedback"
+  }
+}
