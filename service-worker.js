@@ -1,5 +1,5 @@
 /* THEBEATLIST — Base Pilot 5 */
-const CACHE_VERSION = "thebeatlist-v2"; // bump this anytime you redeploy
+const CACHE_VERSION = "thebeatlist-v3"; // bump this anytime you redeploy
 const CACHE_NAME = `base-${CACHE_VERSION}`;
 
 const ASSETS = [
