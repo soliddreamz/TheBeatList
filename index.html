@@ -11,7 +11,7 @@
   <!-- iOS PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
   <style>
     :root{
@@ -23,8 +23,6 @@
       --pill:rgba(255,255,255,0.10);
       --pillStroke:rgba(255,255,255,0.12);
       --accent:#3b82f6;
-      --good:#22c55e;
-      --warn:#f59e0b;
       --danger:#ef4444;
     }
     *{box-sizing:border-box}
@@ -37,7 +35,6 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
-    a{color:inherit}
     .wrap{
       max-width:720px;
       margin:0 auto;
@@ -63,9 +60,7 @@
       border:1px solid var(--stroke);
       background:#000;
     }
-    .brand .t{
-      min-width:0;
-    }
+    .brand .t{min-width:0}
     .brand .t .name{
       font-weight:800;
       letter-spacing:0.4px;
@@ -145,17 +140,8 @@
       padding:14px;
       margin:12px 0;
     }
-    .h1{
-      font-size:18px;
-      font-weight:800;
-      margin:0 0 6px 0;
-    }
-    .p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.35;
-    }
+    .h1{font-size:18px;font-weight:800;margin:0 0 6px 0}
+    .p{margin:0;color:var(--muted);font-size:13px;line-height:1.35}
 
     /* Pill Rows (high-risk component) — Base safety rules */
     .row{
@@ -167,12 +153,13 @@
       background:rgba(255,255,255,0.04);
       border-radius:16px;
       padding:12px 12px;
-      overflow:hidden;            /* LOCKED */
+      overflow:hidden; /* LOCKED */
       margin:10px 0;
       text-decoration:none;
+      color:inherit;
     }
     .row .left{
-      min-width:0;               /* LOCKED */
+      min-width:0; /* LOCKED */
       display:flex;
       flex-direction:column;
       gap:3px;
@@ -192,7 +179,7 @@
       text-overflow:ellipsis;
     }
     .pill{
-      flex:0 0 auto;             /* LOCKED */
+      flex:0 0 auto; /* LOCKED */
       display:inline-flex;
       align-items:center;
       justify-content:center;
@@ -206,6 +193,7 @@
     }
     .pill.live{ background:rgba(239,68,68,0.18); border-color:rgba(239,68,68,0.35); }
     .pill.offline{ background:rgba(255,255,255,0.08); }
+
     .btn{
       display:inline-flex;
       align-items:center;
@@ -225,12 +213,7 @@
       background:rgba(59,130,246,0.22);
       border-color:rgba(59,130,246,0.38);
     }
-    .muted{
-      color:var(--muted);
-      font-size:12px;
-      margin-top:8px;
-      line-height:1.35;
-    }
+    .muted{color:var(--muted);font-size:12px;margin-top:8px;line-height:1.35}
     .hidden{display:none!important}
   </style>
 </head>
@@ -239,7 +222,7 @@
   <div class="wrap">
     <div class="top">
       <div class="brand">
-        <img src="logo.png" alt="Logo">
+        <img src="assets/logo.png" alt="Logo">
         <div class="t">
           <div class="name" id="appName">THEBEATLIST</div>
           <div class="sub" id="appSub">Official app</div>
@@ -249,7 +232,7 @@
     </div>
 
     <div class="hero" id="heroWrap">
-      <img id="heroImg" src="logo-wide.png" alt="Hero">
+      <img id="heroImg" src="assets/logo-wide.png" alt="Hero">
     </div>
 
     <!-- HOME -->
@@ -281,7 +264,6 @@
       <div class="card">
         <div class="h1" style="margin:0 0 10px 0;">Links</div>
         <div id="linksMount"></div>
-
         <div id="feedbackMount" style="margin-top:14px;"></div>
       </div>
     </section>
@@ -292,7 +274,6 @@
   </nav>
 
   <script>
-    // PWA / Service Worker
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js"));
     }
@@ -318,10 +299,8 @@
     }
 
     function safeURL(u){
-      try{
-        const url = new URL(u);
-        return url.toString();
-      }catch(e){ return ""; }
+      try { return new URL(u).toString(); }
+      catch { return ""; }
     }
 
     function renderLinks(sections){
@@ -343,12 +322,15 @@
 
           const left = document.createElement("div");
           left.className = "left";
+
           const label = document.createElement("div");
           label.className = "label";
           label.textContent = item.label || "Link";
+
           const hint = document.createElement("div");
           hint.className = "hint";
           hint.textContent = a.href !== "#" ? a.href.replace(/^https?:\/\//, "") : "Invalid link";
+
           left.appendChild(label);
           left.appendChild(hint);
 
@@ -358,7 +340,6 @@
 
           a.appendChild(left);
           a.appendChild(pill);
-
           mount.appendChild(a);
         });
       });
@@ -379,9 +360,11 @@
 
       const left = document.createElement("div");
       left.className = "left";
+
       const label = document.createElement("div");
       label.className = "label";
       label.textContent = "Feedback";
+
       const hint = document.createElement("div");
       hint.className = "hint";
       hint.textContent = mail;
@@ -398,42 +381,25 @@
       mount.appendChild(a);
     }
 
-    function renderLive(live){
-      const view = views.live;
-      const enabled = !!(live && live.enabled);
-      // If live disabled, remove tab and fallback to home/links
-      return enabled;
-    }
-
     async function boot(){
       const res = await fetch("./content.json", { cache: "no-store" });
       const cfg = await res.json();
 
-      // Top bar
-      document.getElementById("appName").textContent = (cfg.home && cfg.home.title) ? cfg.home.title : (cfg.app?.name || "App");
-      document.getElementById("appSub").textContent = (cfg.home && cfg.home.subtitle) ? cfg.home.subtitle : "Official app";
-      document.getElementById("homeTitle").textContent = (cfg.home && cfg.home.title) ? cfg.home.title : "Home";
-      document.getElementById("homeDesc").textContent = (cfg.home && cfg.home.description) ? cfg.home.description : "";
+      document.getElementById("appName").textContent = cfg.home?.title || cfg.app?.name || "App";
+      document.getElementById("appSub").textContent = cfg.home?.subtitle || "Official app";
+      document.getElementById("homeTitle").textContent = cfg.home?.title || "Home";
+      document.getElementById("homeDesc").textContent = cfg.home?.description || "";
 
       // Hero
-      const hero = (cfg.home && cfg.home.hero_image) ? cfg.home.hero_image : "";
+      const hero = cfg.home?.hero_image || "";
       const heroWrap = document.getElementById("heroWrap");
       const heroImg = document.getElementById("heroImg");
-      if (hero) {
-        heroImg.src = hero;
-        heroWrap.classList.remove("hidden");
-      } else {
-        heroWrap.classList.add("hidden");
-      }
+      if (hero) { heroImg.src = hero; heroWrap.classList.remove("hidden"); }
+      else { heroWrap.classList.add("hidden"); }
 
-      // Theme
-      if (cfg.theme?.accent) document.documentElement.style.setProperty("--accent", cfg.theme.accent);
-
-      // Tabs (conditional)
+      // Tabs
       const tabs = Array.isArray(cfg.tabs) ? cfg.tabs.slice() : [{id:"home",label:"Home"},{id:"links",label:"Links"}];
-
-      // If live disabled, strip live tab
-      const liveEnabled = !!(cfg.live && cfg.live.enabled);
+      const liveEnabled = !!cfg.live?.enabled;
       const finalTabs = tabs.filter(t => t.id !== "live" || liveEnabled);
 
       const tabRow = document.getElementById("tabRow");
@@ -447,11 +413,10 @@
         tabRow.appendChild(b);
       });
 
-      // Links + feedback
       renderLinks(cfg.links?.sections || []);
       renderFeedback(cfg.feedback);
 
-      // Live tab render
+      // Live state
       if (liveEnabled) {
         const status = (cfg.live.status || "offline").toLowerCase();
         const pill = document.getElementById("liveStatusPill");
@@ -463,9 +428,6 @@
         if (status === "live") {
           pill.textContent = "LIVE";
           pill.className = "pill live";
-        } else if (status === "scheduled") {
-          pill.textContent = "SCHEDULED";
-          pill.className = "pill offline";
         } else {
           pill.textContent = "OFFLINE";
           pill.className = "pill offline";
@@ -477,7 +439,6 @@
           watchBtn.style.opacity = "1";
           watchBtn.style.pointerEvents = "auto";
         } else {
-          // No URL yet
           watchBtn.href = "#";
           watchBtn.style.opacity = "0.5";
           watchBtn.style.pointerEvents = "none";
@@ -486,10 +447,8 @@
 
       // Pilot badge
       const pilotBadge = document.getElementById("pilotBadge");
-      pilotBadge.textContent = cfg.branding?.pilot_badge ? "Pilot" : "";
       pilotBadge.style.display = cfg.branding?.pilot_badge ? "inline-flex" : "none";
 
-      // Default tab
       const hash = (location.hash || "#home").replace("#","");
       const defaultTab = finalTabs.some(t => t.id === hash) ? hash : finalTabs[0].id;
       setActiveTab(defaultTab);
