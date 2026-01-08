@@ -1,5 +1,5 @@
 /* THEBEATLIST — Base Pilot 5 */
-const CACHE_VERSION = "thebeatlist-v1";
+const CACHE_VERSION = "thebeatlist-v2"; // bump this anytime you redeploy
 const CACHE_NAME = `base-${CACHE_VERSION}`;
 
 const ASSETS = [
@@ -8,25 +8,18 @@ const ASSETS = [
   "./content.json",
   "./manifest.json",
   "./sw.js",
-  "./apple-touch-icon.png",
-  "./icon-72.png",
-  "./icon-96.png",
-  "./icon-128.png",
-  "./icon-144.png",
-  "./icon-152.png",
-  "./icon-167.png",
-  "./icon-180.png",
-  "./icon-192.png",
-  "./icon-256.png",
-  "./icon-384.png",
-  "./icon-512.png",
-  "./logo.png",
-  "./logo-wide.png"
+  "./assets/logo.png",
+  "./assets/logo-wide.png",
+  "./assets/apple-touch-icon.png",
+  "./assets/icon-192.png",
+  "./assets/icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(ASSETS))
+      .then(() => self.skipWaiting())
   );
 });
 
